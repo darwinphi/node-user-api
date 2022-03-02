@@ -16,4 +16,30 @@ const getAllUsers = async () => {
   });
 };
 
-export { getAllUsers };
+const createUser = async ({
+  username,
+  password,
+  email,
+  firstName,
+  lastName,
+  address,
+  postcode,
+  contactNumber,
+  isAdmin,
+}) => {
+  return await user.create({
+    data: {
+      username: username,
+      password: password,
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      address: address,
+      postcode: postcode,
+      contact_number: contactNumber,
+      is_admin: isAdmin,
+    },
+  });
+};
+
+export { getAllUsers, createUser };

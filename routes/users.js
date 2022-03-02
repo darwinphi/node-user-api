@@ -4,7 +4,7 @@ import { getAllUsers } from "../repo/user.js";
 
 router.get("/", async (_req, res) => {
   const users = await getAllUsers();
-  res.json(users);
+  res.json({ users });
 });
 
 // router.post("/create", async (req, res) => {
