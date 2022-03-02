@@ -12,7 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.15",
-    "prisma": "^3.10.0"
+    "prisma": "^3.10.0",
+    "supertest": "^6.2.2"
   },
   "type": "module",
   "dependencies": {
