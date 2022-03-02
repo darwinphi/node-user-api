@@ -1,16 +1,16 @@
 version: "3.8"
 
 services:
-  mysql_db:
-    image: mysql:8.0.28
+  mysqlserver:
+    image: mysql:8
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
     environment:
+      MYSQL_DATABASE: db
       MYSQL_ROOT_PASSWORD: secret
     ports:
-      - 3307:3306
-    volumes:
-      - mysqldb_data:/var/lib/mysql
+      - 3306:3306
+#     volumes:
+#       - mysqldb_data:/var/lib/mysql
 
-volumes:
-  mysqldb_data:
+# volumes:
+#   mysqldb_data:
