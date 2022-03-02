@@ -17,7 +17,7 @@ model User {
   address        String  @db.Text
   postcode       String  @db.VarChar(255)
   contact_number String  @db.VarChar(255)
-  email          String  @db.VarChar(255)
+  email          String  @unique @db.VarChar(255)
   username       String  @unique @db.VarChar(255)
   password       String  @db.VarChar(255)
   is_admin       Boolean @db.TinyInt
