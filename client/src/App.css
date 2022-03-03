@@ -1,6 +1,6 @@
 main {
   margin: 0 auto;
-  width: 50vw;
+  width: 60vw;
 }
 
 main section {
@@ -9,6 +9,7 @@ main section {
 
 table {
   border-collapse: collapse;
+  margin: 0 auto;
 }
 
 td,
@@ -16,4 +17,9 @@ th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+}
+
+form {
+  margin: 0 auto;
+  width: 80%;
 }
