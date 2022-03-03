@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../app.js";
-import { createUser } from "../repo/user.js";
+import { createUser, getAllUsers } from "../repo/user.js";
 
 import prismaClient from "@prisma/client";
 const { PrismaClient } = prismaClient;
@@ -20,14 +20,14 @@ const newUser = {
 
 let createdUserId;
 
-beforeAll(async () => {
+beforeEach(async () => {
   await user.deleteMany();
   const createdUser = await createUser(newUser);
   createdUserId = createdUser.id;
-  console.log("✨ 1 user successfully created!", createdUser);
+  // console.log("✨ 1 user successfully created!", createdUser);
 });
 
-afterAll(async () => {
+afterEach(async () => {
   await user.deleteMany({});
 });
 
@@ -89,4 +89,32 @@ describe("/users/delete", () => {
   });
 });
 
+describe("/users/delete", () => {
+  it("response a json with the number of users", async () => {
+    const jake = {
+      email: "jake@email.com",
+      firstName: "Jake",
+      lastName: "Doe",
+      address: "Makati",
+      postcode: "1200",
+      contactNumber: "092626262626",
+      username: "Jake",
+      password: "secret",
+      isAdmin: false,
+    };
 
+    const createdJake = await createUser(jake);
+
+    const response = await request(app)
+      .delete("/users/delete")
+      .send({
+        ids: [createdUserId, createdJake.id],
+      })
+      .set("Accept", "application/json");
+
+    expect(await getAllUsers()).toEqual([]);
+    expect(response.body).toEqual({ count: 2 });
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.status).toEqual(200);
+  });
+});

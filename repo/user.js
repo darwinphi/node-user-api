@@ -53,4 +53,16 @@ const deleteUser = async (id) => {
     },
   });
 };
-export { getAllUsers, createUser, deleteUser };
+
+const deleteUsers = async (userIds) => {
+  return await user.deleteMany({
+    where: {
+      OR: userIds,
+    },
+    select: {
+      count: true,
+    },
+  });
+};
+
+export { getAllUsers, createUser, deleteUser, deleteUsers };

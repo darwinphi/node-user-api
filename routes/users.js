@@ -1,6 +1,11 @@
 import express from "express";
 const router = express.Router();
-import { getAllUsers, createUser, deleteUser } from "../repo/user.js";
+import {
+  getAllUsers,
+  createUser,
+  deleteUser,
+  deleteUsers,
+} from "../repo/user.js";
 
 router.get("/", async (_req, res) => {
   const users = await getAllUsers();
@@ -41,6 +46,18 @@ router.delete("/delete/:id", async (req, res) => {
   console.log(deletedUser);
 
   res.status(200).json(deletedUser);
+});
+
+router.delete("/delete", async (req, res) => {
+  const { ids } = req.body;
+
+  const userIds = ids.map((id) => {
+    return { id: Number(id) };
+  });
+
+  const deletedUsers = await deleteUsers(userIds);
+
+  res.status(200).json(deletedUsers);
 });
 
 export default router;
