@@ -5,6 +5,7 @@ const { user } = new PrismaClient();
 const getAllUsers = async () => {
   return await user.findMany({
     select: {
+      id: true,
       username: true,
       email: true,
       first_name: true,
@@ -42,4 +43,14 @@ const createUser = async ({
   });
 };
 
-export { getAllUsers, createUser };
+const deleteUser = async (id) => {
+  return await user.delete({
+    where: {
+      id,
+    },
+    select: {
+      email: true,
+    },
+  });
+};
+export { getAllUsers, createUser, deleteUser };

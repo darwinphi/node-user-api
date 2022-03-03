@@ -18,9 +18,12 @@ const newUser = {
   isAdmin: false,
 };
 
+let createdUserId;
+
 beforeAll(async () => {
   await user.deleteMany();
   const createdUser = await createUser(newUser);
+  createdUserId = createdUser.id;
   console.log("✨ 1 user successfully created!", createdUser);
 });
 
@@ -39,6 +42,7 @@ describe("/users", () => {
     expect(response.body).toEqual({
       users: [
         {
+          id: createdUserId,
           address: "Makati",
           contact_number: "092626262626",
           email: "jane@email.com",
@@ -73,3 +77,16 @@ describe("/users/create", () => {
     expect(response.status).toEqual(201);
   });
 });
+
+describe("/users/delete", () => {
+  it("response a json with the deleted user", async () => {
+    const response = await request(app)
+      .delete(`/users/delete/${createdUserId}`)
+      .set("Accept", "application/json");
+
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.status).toEqual(200);
+  });
+});
+
+
