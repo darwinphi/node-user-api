@@ -43,21 +43,16 @@ router.post("/create", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
   const deletedUser = await deleteUser(Number(id));
-
   console.log(deletedUser);
-
   res.status(200).json(deletedUser);
 });
 
 router.delete("/delete", async (req, res) => {
   const { ids } = req.body;
-
   const userIds = ids.map((id) => {
     return { id: Number(id) };
   });
-
   const deletedUsers = await deleteUsers(userIds);
-
   res.status(200).json(deletedUsers);
 });
 
