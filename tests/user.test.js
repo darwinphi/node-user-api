@@ -91,6 +91,43 @@ describe("/users/create", () => {
       },
     });
   });
+
+  it("returns error when", async () => {
+    const response = await request(app)
+      .post("/users/create")
+      .send({
+        email: "john@email",
+        firstName: "John",
+        lastName: "Doe",
+        address: "Makati",
+        postcode: "1200",
+        contactNumber: "092626262626",
+        username: "john",
+        password: "abc",
+        isAdmin: false,
+      })
+      .set("Accept", "application/json");
+
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: "Errors",
+      data: [
+        {
+          value: "john@email",
+          msg: "Please enter a valid email address",
+          param: "email",
+          location: "body",
+        },
+        {
+          value: "abc",
+          msg: "Password must be more than 5 characters",
+          param: "password",
+          location: "body",
+        },
+      ],
+    });
+  });
 });
 
 describe("/users/delete", () => {
