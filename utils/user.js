@@ -9,6 +9,7 @@ const emailExists = async (email) => {
     },
     select: {
       email: true,
+      password: true,
     },
   });
 };
