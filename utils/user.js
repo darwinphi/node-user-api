@@ -13,8 +13,19 @@ const emailExists = async (email) => {
   });
 };
 
+const idExists = async (id) => {
+  return await user.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      id: true,
+    },
+  });
+};
+
 const formatResponse = (res, statusCode, message, data) => {
   return res.status(statusCode).json({ message: message, data: data });
 };
 
-export { emailExists, formatResponse };
+export { emailExists, idExists, formatResponse };

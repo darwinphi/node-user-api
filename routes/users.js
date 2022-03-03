@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import { body, check, validationResult } from "express-validator";
-import { emailExists, formatResponse } from "../utils/user.js";
+import { param, check, validationResult } from "express-validator";
+import { emailExists, idExists, formatResponse } from "../utils/user.js";
 import {
   getAllUsers,
   createUser,
@@ -67,10 +67,26 @@ router.post("/create", validations, async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+const deleteValidations = [
+  param("id").custom((value) => {
+    if (isNaN(value)) {
+      return Promise.reject("Invalid format");
+    } else {
+      return idExists(Number(value)).then((user) => {
+        if (!user) {
+          return Promise.reject("User does not exists");
+        }
+      });
+    }
+  }),
+];
+router.delete("/delete/:id", deleteValidations, async (req, res) => {
   const { id } = req.params;
-  const deletedUser = await deleteUser(Number(id));
-  formatResponse(res, 200, "User deleted", deletedUser);
+
+  if (!errors(req, res)) {
+    const deletedUser = await deleteUser(Number(id));
+    formatResponse(res, 200, "User deleted", deletedUser);
+  }
 });
 
 router.delete("/delete", async (req, res) => {

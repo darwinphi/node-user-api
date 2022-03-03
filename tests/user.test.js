@@ -159,7 +159,7 @@ describe("/users/create", () => {
   });
 });
 
-describe("/users/delete", () => {
+describe("/users/delete/:id", () => {
   it("returns a json with the deleted user", async () => {
     const response = await request(app)
       .delete(`/users/delete/${janeUserId}`)
@@ -170,6 +170,47 @@ describe("/users/delete", () => {
     expect(response.body).toEqual({
       message: "User deleted",
       data: { email: "jane@email.com" },
+    });
+  });
+
+  it("returns a json with error message when given id does not exists", async () => {
+    const randomId = Math.floor(Math.random() * (1000 - 500) + 500);
+    const response = await request(app)
+      .delete(`/users/delete/${randomId}`)
+      .set("Accept", "application/json");
+
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: "Errors",
+      data: [
+        {
+          value: `${randomId}`,
+          msg: "User does not exists",
+          param: "id",
+          location: "params",
+        },
+      ],
+    });
+  });
+
+  it("returns a json with error message when given id is not an integer", async () => {
+    const response = await request(app)
+      .delete(`/users/delete/hello`)
+      .set("Accept", "application/json");
+
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: "Errors",
+      data: [
+        {
+          value: "hello",
+          msg: "Invalid format",
+          param: "id",
+          location: "params",
+        },
+      ],
     });
   });
 });
