@@ -5,6 +5,7 @@ import {
   createUser,
   deleteUser,
   deleteUsers,
+  editUser,
 } from "../repo/user.js";
 
 router.get("/", async (_req, res) => {
@@ -58,6 +59,12 @@ router.delete("/delete", async (req, res) => {
   const deletedUsers = await deleteUsers(userIds);
 
   res.status(200).json(deletedUsers);
+});
+
+router.put("/edit", async (req, res) => {
+  const userData = req.body;
+  const editedUser = await editUser(userData);
+  res.status(200).json(editedUser);
 });
 
 export default router;

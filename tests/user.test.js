@@ -6,7 +6,7 @@ import prismaClient from "@prisma/client";
 const { PrismaClient } = prismaClient;
 const { user } = new PrismaClient();
 
-const newUser = {
+const jane = {
   email: "jane@email.com",
   firstName: "Jane",
   lastName: "Doe",
@@ -18,13 +18,12 @@ const newUser = {
   isAdmin: false,
 };
 
-let createdUserId;
+let janeUserId;
 
 beforeEach(async () => {
   await user.deleteMany();
-  const createdUser = await createUser(newUser);
-  createdUserId = createdUser.id;
-  // console.log("✨ 1 user successfully created!", createdUser);
+  const createdJane = await createUser(jane);
+  janeUserId = createdJane.id;
 });
 
 afterEach(async () => {
@@ -42,7 +41,7 @@ describe("/users", () => {
     expect(response.body).toEqual({
       users: [
         {
-          id: createdUserId,
+          id: janeUserId,
           address: "Makati",
           contact_number: "092626262626",
           email: "jane@email.com",
@@ -81,7 +80,7 @@ describe("/users/create", () => {
 describe("/users/delete", () => {
   it("response a json with the deleted user", async () => {
     const response = await request(app)
-      .delete(`/users/delete/${createdUserId}`)
+      .delete(`/users/delete/${janeUserId}`)
       .set("Accept", "application/json");
 
     expect(response.headers["content-type"]).toMatch(/json/);
@@ -108,7 +107,7 @@ describe("/users/delete", () => {
     const response = await request(app)
       .delete("/users/delete")
       .send({
-        ids: [createdUserId, createdJake.id],
+        ids: [janeUserId, createdJake.id],
       })
       .set("Accept", "application/json");
 
@@ -116,5 +115,36 @@ describe("/users/delete", () => {
     expect(response.body).toEqual({ count: 2 });
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(200);
+  });
+});
+
+describe("/users/edit", () => {
+  it("response a json with the edited user", async () => {
+    const response = await request(app)
+      .put("/users/edit")
+      .send({
+        id: janeUserId,
+        email: "jane@email.com",
+        firstName: "Jane Jane",
+        lastName: "Doe Doe",
+        address: "Makati City",
+        postcode: "1222",
+        contactNumber: "092929292929",
+        username: "janee",
+        password: "secret",
+      })
+      .set("Accept", "application/json");
+
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      username: "janee",
+      email: "jane@email.com",
+      first_name: "Jane Jane",
+      last_name: "Doe Doe",
+      address: "Makati City",
+      postcode: "1222",
+      contact_number: "092929292929",
+    });
   });
 });

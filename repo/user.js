@@ -65,4 +65,31 @@ const deleteUsers = async (userIds) => {
   });
 };
 
-export { getAllUsers, createUser, deleteUser, deleteUsers };
+const editUser = async (data) => {
+  return await user.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      address: data.address,
+      postcode: data.postcode,
+      contact_number: data.contactNumber,
+    },
+    select: {
+      username: true,
+      email: true,
+      first_name: true,
+      last_name: true,
+      address: true,
+      postcode: true,
+      contact_number: true,
+    },
+  });
+};
+
+export { getAllUsers, createUser, deleteUser, deleteUsers, editUser };
