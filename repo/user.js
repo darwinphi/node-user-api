@@ -17,28 +17,18 @@ const getAllUsers = async () => {
   });
 };
 
-const createUser = async ({
-  username,
-  password,
-  email,
-  firstName,
-  lastName,
-  address,
-  postcode,
-  contactNumber,
-  isAdmin,
-}) => {
+const createUser = async (data) => {
   return await user.create({
     data: {
-      username: username,
-      password: password,
-      email: email,
-      first_name: firstName,
-      last_name: lastName,
-      address: address,
-      postcode: postcode,
-      contact_number: contactNumber,
-      is_admin: isAdmin,
+      username: data.username,
+      password: data.password,
+      email: data.email,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      address: data.address,
+      postcode: data.postcode,
+      contact_number: data.contactNumber,
+      is_admin: data.isAdmin,
     },
   });
 };
