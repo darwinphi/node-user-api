@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
 import "dotenv/config";
-import { formatResponse, emailExists } from "../utils/user";
+import { formatResponse, emailExists } from "../utils/user.js";
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
