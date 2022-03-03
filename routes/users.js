@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+import { formatResponse } from "../utils/user.js";
 import {
   getAllUsers,
   createUser,
@@ -10,7 +11,7 @@ import {
 
 router.get("/", async (_req, res) => {
   const users = await getAllUsers();
-  res.json({ users });
+  formatResponse(res, 200, "Ok", users);
 });
 
 router.post("/create", async (req, res) => {
@@ -37,14 +38,13 @@ router.post("/create", async (req, res) => {
     isAdmin,
   });
 
-  res.status(201).json({ newUser });
+  formatResponse(res, 201, "User Created", newUser);
 });
 
 router.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
   const deletedUser = await deleteUser(Number(id));
-  console.log(deletedUser);
-  res.status(200).json(deletedUser);
+  formatResponse(res, 200, "User deleted", deletedUser);
 });
 
 router.delete("/delete", async (req, res) => {
@@ -53,13 +53,14 @@ router.delete("/delete", async (req, res) => {
     return { id: Number(id) };
   });
   const deletedUsers = await deleteUsers(userIds);
-  res.status(200).json(deletedUsers);
+  formatResponse(res, 200, "Users deleted", deletedUsers);
 });
 
 router.put("/edit", async (req, res) => {
   const userData = req.body;
   const editedUser = await editUser(userData);
-  res.status(200).json(editedUser);
+  // res.status(200).json(editedUser);
+  formatResponse(res, 200, "User edited", editedUser);
 });
 
 export default router;

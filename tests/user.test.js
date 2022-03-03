@@ -39,7 +39,8 @@ describe("/users", () => {
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({
-      users: [
+      message: "Ok",
+      data: [
         {
           id: janeUserId,
           address: "Makati",
@@ -74,6 +75,21 @@ describe("/users/create", () => {
 
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(201);
+    expect(response.body).toEqual({
+      message: "User Created",
+      data: {
+        id: response.body.data.id,
+        first_name: "John",
+        last_name: "Doe",
+        address: "Makati",
+        postcode: "1200",
+        contact_number: "092626262626",
+        email: "john@email.com",
+        username: "john",
+        password: "secret",
+        is_admin: false,
+      },
+    });
   });
 });
 
@@ -85,11 +101,15 @@ describe("/users/delete", () => {
 
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      message: "User deleted",
+      data: { email: "jane@email.com" },
+    });
   });
 });
 
 describe("/users/delete", () => {
-  it("response a json with the number of users", async () => {
+  it("response a json with the number of users deleted", async () => {
     const jake = {
       email: "jake@email.com",
       firstName: "Jake",
@@ -112,7 +132,10 @@ describe("/users/delete", () => {
       .set("Accept", "application/json");
 
     expect(await getAllUsers()).toEqual([]);
-    expect(response.body).toEqual({ count: 2 });
+    expect(response.body).toEqual({
+      message: "Users deleted",
+      data: { count: 2 },
+    });
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(200);
   });
@@ -138,13 +161,16 @@ describe("/users/edit", () => {
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({
-      username: "janee",
-      email: "jane@email.com",
-      first_name: "Jane Jane",
-      last_name: "Doe Doe",
-      address: "Makati City",
-      postcode: "1222",
-      contact_number: "092929292929",
+      message: "User edited",
+      data: {
+        username: "janee",
+        email: "jane@email.com",
+        first_name: "Jane Jane",
+        last_name: "Doe Doe",
+        address: "Makati City",
+        postcode: "1222",
+        contact_number: "092929292929",
+      },
     });
   });
 });
