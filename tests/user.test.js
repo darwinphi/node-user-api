@@ -31,7 +31,7 @@ afterEach(async () => {
 });
 
 describe("/users", () => {
-  it("responds a json with the list of users", async () => {
+  it("returns a json with the list of users", async () => {
     const response = await request(app)
       .get("/users")
       .set("Accept", "application/json");
@@ -57,7 +57,7 @@ describe("/users", () => {
 });
 
 describe("/users/create", () => {
-  it("response a json with the created user", async () => {
+  it("returns a json with the created user", async () => {
     const response = await request(app)
       .post("/users/create")
       .send({
@@ -94,7 +94,7 @@ describe("/users/create", () => {
 });
 
 describe("/users/delete", () => {
-  it("response a json with the deleted user", async () => {
+  it("returns a json with the deleted user", async () => {
     const response = await request(app)
       .delete(`/users/delete/${janeUserId}`)
       .set("Accept", "application/json");
@@ -109,7 +109,7 @@ describe("/users/delete", () => {
 });
 
 describe("/users/delete", () => {
-  it("response a json with the number of users deleted", async () => {
+  it("returns a json with the number of users deleted", async () => {
     const jake = {
       email: "jake@email.com",
       firstName: "Jake",
@@ -142,7 +142,7 @@ describe("/users/delete", () => {
 });
 
 describe("/users/edit", () => {
-  it("response a json with the edited user", async () => {
+  it("returns a json with the edited user", async () => {
     const response = await request(app)
       .put("/users/edit")
       .send({
