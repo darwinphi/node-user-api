@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import { check, validationResult } from "express-validator";
-import { formatResponse } from "../utils/user.js";
+import { body, check, validationResult } from "express-validator";
+import { emailExists, formatResponse } from "../utils/user.js";
 import {
   getAllUsers,
   createUser,
@@ -15,8 +15,15 @@ const validations = [
   check("password", "Password must be more than 5 characters").isLength({
     min: 5,
   }),
+  check("email").custom((value) => {
+    return emailExists(value).then((user) => {
+      if (user) {
+        return Promise.reject("Email already in use");
+      }
+    });
+  }),
 ];
-const hasErrors = (req, res) => {
+const errors = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return formatResponse(res, 400, "Errors", errors.array());
@@ -43,7 +50,7 @@ router.post("/create", validations, async (req, res) => {
     isAdmin,
   } = req.body;
 
-  if (!hasErrors(req, res)) {
+  if (!errors(req, res)) {
     const newUser = await createUser({
       email,
       firstName,
@@ -78,7 +85,6 @@ router.delete("/delete", async (req, res) => {
 router.put("/edit", async (req, res) => {
   const userData = req.body;
   const editedUser = await editUser(userData);
-  // res.status(200).json(editedUser);
   formatResponse(res, 200, "User edited", editedUser);
 });
 

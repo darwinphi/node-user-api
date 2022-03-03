@@ -127,6 +127,36 @@ describe("/users/create", () => {
       ],
     });
   });
+
+  it("returns a json with error message when email already exists", async () => {
+    const response = await request(app)
+      .post("/users/create")
+      .send({
+        email: "jane@email.com",
+        firstName: "John",
+        lastName: "Doe",
+        address: "Makati",
+        postcode: "1200",
+        contactNumber: "092626262626",
+        username: "john",
+        password: "secret",
+        isAdmin: false,
+      })
+      .set("Accept", "application/json");
+    expect(response.headers["content-type"]).toMatch(/json/);
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: "Errors",
+      data: [
+        {
+          value: "jane@email.com",
+          msg: "Email already in use",
+          param: "email",
+          location: "body",
+        },
+      ],
+    });
+  });
 });
 
 describe("/users/delete", () => {

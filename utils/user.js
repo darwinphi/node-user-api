@@ -2,13 +2,13 @@ import prismaClient from "@prisma/client";
 const { PrismaClient } = prismaClient;
 const { user } = new PrismaClient();
 
-const userExists = async () => {
+const emailExists = async (email) => {
   return await user.findUnique({
     where: {
-      username: username,
+      email: email,
     },
     select: {
-      username: true,
+      email: true,
     },
   });
 };
@@ -17,4 +17,4 @@ const formatResponse = (res, statusCode, message, data) => {
   return res.status(statusCode).json({ message: message, data: data });
 };
 
-export { userExists, formatResponse };
+export { emailExists, formatResponse };
