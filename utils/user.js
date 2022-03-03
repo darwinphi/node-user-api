@@ -13,4 +13,8 @@ const userExists = async () => {
   });
 };
 
-export { userExists };
+const formatResponse = (res, statusCode, message, data) => {
+  return res.status(statusCode).json({ message: message, data: data });
+};
+
+export { userExists, formatResponse };
