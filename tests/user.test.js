@@ -1,7 +1,6 @@
 import request from "supertest";
 import app from "../app.js";
 import { createUser, getAllUsers } from "../repo/user.js";
-
 import prismaClient from "@prisma/client";
 const { PrismaClient } = prismaClient;
 const { user } = new PrismaClient();
@@ -86,13 +85,13 @@ describe("/users/create", () => {
         contact_number: "092626262626",
         email: "john@email.com",
         username: "john",
-        password: "secret",
+        password: response.body.data.password,
         is_admin: false,
       },
     });
   });
 
-  it("returns error when", async () => {
+  it("returns a json with error message when email or password format is invalid", async () => {
     const response = await request(app)
       .post("/users/create")
       .send({
