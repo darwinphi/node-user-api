@@ -1,9 +1,9 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
+import "dotenv/config";
 import { formatResponse, emailExists } from "../utils/user";
 const router = express.Router();
-const secret = "HWQXTVdJWQ3SDJ6Lkb45XFGAWpAu4vPk";
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -18,7 +18,9 @@ router.post("/login", async (req, res) => {
     formatResponse(res, 400, "Invalid credentials", { email, password });
     return;
   }
-  const token = await JWT.sign({ email }, secret, { expiresIn: "1d" });
+  const token = await JWT.sign({ email }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
   formatResponse(res, 200, "Logged In Successfully", { token });
 });
 
