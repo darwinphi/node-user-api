@@ -7,6 +7,7 @@ Prerequisites
 - [Node.js](https://nodejs.org/en/download/)
 - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [Docker](https://docs.docker.com/get-docker/)
+- [Git](https://git-scm.com/downloads)
 
 Clone the repo
 ```
