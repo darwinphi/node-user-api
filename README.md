@@ -70,17 +70,31 @@ npx prisma db seed
 `./prisma/seed.js`
 
 Credentials for admin
+
 Email: admin@email.com
+
 Password: secret
 
 Credentials for non-admin
-Email: member@email.comm
+
+Email: member@email.com
+
 Password: secret
 
 ## Optional
 View data of your database
+
+Using Prisma
 ```
 npx prisma studio
+```
+Using MySQL container
+```
+docker exec -it [container_name] mysql -uroot -p
+Password: secret
+```
+```
+use db;
 ```
 Build client
 ```
