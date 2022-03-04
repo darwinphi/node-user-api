@@ -5,8 +5,7 @@ import { EditUserForm } from "./EditUserForm";
 export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
   const [displayEditUser, setDisplayEditUser] = useState(false);
   const [userToEdit, setUserToEdit] = useState(null);
-
-  console.log(userToEdit);
+  const [usersToDelete, setUsersToDelete] = useState([]);
 
   const deleteUser = async (id) => {
     try {
@@ -23,6 +22,20 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
     const message = `Are you sure you want to delete ${first_name} ${last_name}?`;
     if (confirm(message)) {
       deleteUser(id);
+    }
+  };
+
+  const handleCheck = (e) => {
+    const id = e.target.value;
+    const isChecked = e.target.checked;
+
+    if (e.target.checked) {
+      setUsersToDelete([...usersToDelete, id]);
+      console.log("Check and Value", isChecked, id);
+    } else {
+      setUsersToDelete(
+        usersToDelete.filter((userToDelete) => userToDelete !== id)
+      );
     }
   };
 
@@ -55,6 +68,11 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
             users.map((user, i) => (
               <tr key={i}>
                 <td>
+                  <input
+                    type="checkbox"
+                    value={user.id}
+                    onChange={(e) => handleCheck(e)}
+                  />
                   {user.first_name} {user.last_name}
                 </td>
                 <td>{user.username}</td>
