@@ -2,6 +2,12 @@
 A demo project using Node.js and MySQL
 
 ## 📦 Get Started
+Prerequisites
+
+- [Node.js](https://nodejs.org/en/download/)
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [Docker](https://docs.docker.com/get-docker/)
+
 Clone the repo
 ```
 git clone git@github.com:darwinphi/node-user-api.git
