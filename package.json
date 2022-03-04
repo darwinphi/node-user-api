@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest -i",
-    "start": "nodemon ./index.js"
+    "start": "nodemon ./index.js",
+    "seed": "npx prisma db seed"
   },
   "keywords": [],
   "author": "",
