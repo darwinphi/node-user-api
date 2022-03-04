@@ -2,6 +2,13 @@
 A demo project using Node.js and MySQL
 
 ## 📦 Get Started
+Prerequisites
+
+- [Node.js](https://nodejs.org/en/download/)
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Git](https://git-scm.com/downloads)
+
 Clone the repo
 ```
 git clone git@github.com:darwinphi/node-user-api.git
@@ -12,10 +19,19 @@ npm install
 ```
 Run MySQL
 
+Wait for a moment to load. Check docker logs to make sure it's up and running.
 ```
 docker-compose up
 ```
-Wait for a moment to load. Check docker logs to make sure it's up and running.
+
+Run migration
+```
+npx prisma migrate dev --name init
+```
+Whenever you make changes to your database that are reflected in the Prisma schema, you need to manually re-generate Prisma Client to update the generated code in the `node_modules/.prisma/client` directory:
+```
+npx prisma generate
+```
 
 To start and see the demo app...
 ```
@@ -30,7 +46,7 @@ GET /users
 ```
 Create a user
 ```
-GET /users/create
+POST /users/create
 ```
 Edit a user
 ```
@@ -69,6 +85,10 @@ npx prisma db seed
 ```
 `./prisma/seed.js`
 
+Or if you want to reset the database and run the seed
+```
+npx prisma migrate reset
+```
 Credentials for admin
 
 Email: admin@email.com
