@@ -25,6 +25,24 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
     }
   };
 
+  const confirmDeleteUsers = async () => {
+    const message = `Are you sure you want to delete the selected users?`;
+    if (confirm(message)) {
+      deleteUsers();
+    }
+  };
+
+  const deleteUsers = async () => {
+    try {
+      await axios.post("/users/delete", {
+        ids: usersToDelete,
+      });
+      window.location.reload(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const handleCheck = (e) => {
     const id = e.target.value;
     const isChecked = e.target.checked;
@@ -51,6 +69,7 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
   return (
     <>
       <h1>👨‍💻 Users</h1>
+
       <table>
         <thead>
           <tr>
@@ -60,7 +79,13 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
             <th>Postcode</th>
             <th>Contact No.</th>
             <th>Email</th>
-            {isAdmin() && <th colSpan={2}>Actions</th>}
+            {isAdmin() && (
+              <th colSpan={2}>
+                <button onClick={confirmDeleteUsers}>
+                  Delete All Selected
+                </button>
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -72,6 +97,7 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
                     type="checkbox"
                     value={user.id}
                     onChange={(e) => handleCheck(e)}
+                    style={{ marginRight: "0.5rem" }}
                   />
                   {user.first_name} {user.last_name}
                 </td>

@@ -89,11 +89,12 @@ router.delete("/delete/:id", deleteValidations, async (req, res) => {
   }
 });
 
-router.delete("/delete", async (req, res) => {
+router.post("/delete", async (req, res) => {
   const { ids } = req.body;
   const userIds = ids.map((id) => {
     return { id: Number(id) };
   });
+  console.log(ids);
   const deletedUsers = await deleteUsers(userIds);
   formatResponse(res, 200, "Users deleted", deletedUsers);
 });

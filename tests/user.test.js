@@ -232,7 +232,7 @@ describe("/users/delete", () => {
     const createdJake = await createUser(jake);
 
     const response = await request(app)
-      .delete("/users/delete")
+      .post("/users/delete")
       .send({
         ids: [janeUserId, createdJake.id],
       })
