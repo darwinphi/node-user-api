@@ -253,7 +253,7 @@ describe("/users/edit", () => {
     const response = await request(app)
       .put("/users/edit")
       .send({
-        id: janeUserId,
+        id: `${janeUserId}`,
         email: "jane@email.com",
         firstName: "Jane Jane",
         lastName: "Doe Doe",

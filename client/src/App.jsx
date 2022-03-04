@@ -4,10 +4,8 @@ import { UsersTable } from "./components/UsersTable";
 import { CreateUserForm } from "./components/CreateUserForm";
 import { LoginForm } from "./components/LoginForm";
 import useCookie from "react-use-cookie";
-import { Formik, Field, Form } from "formik";
 import axios from "axios";
 import { Button } from "./components/Button";
-import jwt_decode from "jwt-decode";
 import jwtDecode from "jwt-decode";
 
 function App() {
@@ -55,8 +53,7 @@ function App() {
     <main>
       <section>
         <Button onClick={logout} value="↩️ Log Out" />
-
-        <UsersTable users={users} isAdmin={isAdmin}/>
+        <UsersTable users={users} isAdmin={isAdmin} />
         {isAdmin() && <CreateUserForm />}
       </section>
     </main>

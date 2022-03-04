@@ -58,14 +58,17 @@ const deleteUsers = async (userIds) => {
 };
 
 const editUser = async (data) => {
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+  const parseId = parseInt(data.id);
+
   return await user.update({
     where: {
-      id: data.id,
+      id: parseId,
     },
     data: {
       username: data.username,
       email: data.email,
-      password: data.password,
+      password: hashedPassword,
       first_name: data.firstName,
       last_name: data.lastName,
       address: data.address,

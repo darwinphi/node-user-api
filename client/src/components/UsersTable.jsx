@@ -1,6 +1,13 @@
 import axios from "axios";
+import { useState } from "react";
+import { EditUserForm } from "./EditUserForm";
 
 export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
+  const [displayEditUser, setDisplayEditUser] = useState(false);
+  const [userToEdit, setUserToEdit] = useState(null);
+
+  console.log(userToEdit);
+
   const deleteUser = async (id) => {
     try {
       const response = await axios.delete(`/users/delete/${id}`);
@@ -18,6 +25,15 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
       deleteUser(id);
     }
   };
+
+  if (displayEditUser) {
+    return (
+      <EditUserForm
+        setDisplayEditUser={(value) => setDisplayEditUser(value)}
+        userToEdit={userToEdit}
+      />
+    );
+  }
 
   return (
     <>
@@ -50,7 +66,14 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
                 {isAdmin() && (
                   <>
                     <td>
-                      <button>Edit</button>
+                      <button
+                        onClick={() => {
+                          setDisplayEditUser(true);
+                          setUserToEdit(user);
+                        }}
+                      >
+                        Edit
+                      </button>
                     </td>
                     <td>
                       <button onClick={() => confirmDeleteUser(user)}>
