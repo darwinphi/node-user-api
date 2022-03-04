@@ -94,7 +94,6 @@ router.post("/delete", async (req, res) => {
   const userIds = ids.map((id) => {
     return { id: Number(id) };
   });
-  console.log(ids);
   const deletedUsers = await deleteUsers(userIds);
   formatResponse(res, 200, "Users deleted", deletedUsers);
 });
