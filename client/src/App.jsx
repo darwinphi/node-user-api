@@ -26,7 +26,9 @@ function App() {
         email: user.email,
         password: user.password,
       });
-      console.log(response.data);
+      const { data } = response.data;
+      setUserToken(data.token);
+      console.log("Response", data.token);
     } catch (e) {
       console.log(e.response.data);
     }
@@ -75,7 +77,7 @@ function App() {
   return (
     <main>
       <section>
-        {/* <UsersTable users={users} /> */}
+        <UsersTable users={users} />
         {/* <CreateUserForm /> */}
       </section>
     </main>
