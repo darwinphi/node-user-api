@@ -1,6 +1,8 @@
 import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
+import bcrypt from "bcrypt";
+const hashedPassword = await bcrypt.hash("secret", 10);
 
 const users = [
   {
@@ -11,7 +13,7 @@ const users = [
     postcode: "1700",
     contact_number: "092626262626",
     username: "admin",
-    password: "secret",
+    password: hashedPassword,
     is_admin: true,
   },
   {
@@ -22,7 +24,7 @@ const users = [
     postcode: "1500",
     contact_number: "091616161616",
     username: "member",
-    password: "secret",
+    password: hashedPassword,
     is_admin: false,
   },
 ];
