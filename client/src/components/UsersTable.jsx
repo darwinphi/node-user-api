@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { EditUserForm } from "./EditUserForm";
 
-export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
+export const UsersTable = ({ users, isAdmin }) => {
   const [displayEditUser, setDisplayEditUser] = useState(false);
   const [userToEdit, setUserToEdit] = useState(null);
   const [usersToDelete, setUsersToDelete] = useState([]);

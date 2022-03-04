@@ -4,9 +4,9 @@ import { UsersTable } from "./components/UsersTable";
 import { CreateUserForm } from "./components/CreateUserForm";
 import { LoginForm } from "./components/LoginForm";
 import useCookie from "react-use-cookie";
-import axios from "axios";
 import { Button } from "./components/Button";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 function App() {
   const [users, setUsers] = useState(null);
@@ -23,10 +23,9 @@ function App() {
   console.log(userToken);
 
   useEffect(async () => {
-    const response = await fetch("/users");
-    const result = await response.json();
-    console.log(result);
-    setUsers(result.data);
+    const response = await axios.get("/users");
+    const { data } = response.data;
+    setUsers(data);
   }, []);
 
   if (!userToken) {
