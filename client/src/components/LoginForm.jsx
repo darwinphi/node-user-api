@@ -32,7 +32,13 @@ export const LoginForm = ({ setUserToken, setLogInErrorMessage }) => {
       >
         <Form>
           <p>
-            <Field id="email" name="email" placeholder="Email" type="email" />
+            <Field
+              id="email"
+              name="email"
+              placeholder="Email"
+              type="email"
+              required
+            />
           </p>
           <p>
             <Field
@@ -40,6 +46,7 @@ export const LoginForm = ({ setUserToken, setLogInErrorMessage }) => {
               name="password"
               placeholder="Password"
               type="password"
+              required
             />
           </p>
 
