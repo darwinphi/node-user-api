@@ -69,6 +69,14 @@ npx prisma db seed
 ```
 `./prisma/seed.js`
 
+Credentials for admin
+Email: admin@email.com
+Password: secret
+
+Credentials for non-admin
+Email: member@email.comm
+Password: secret
+
 ## Optional
 View data of your database
 ```
