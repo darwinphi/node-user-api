@@ -7,6 +7,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/users": "http://localhost:5000",
+      "/auth/login": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

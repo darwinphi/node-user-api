@@ -1,7 +1,6 @@
-import {useState} from "react";
+import { useState } from "react";
 
 export const LoginForm = () => {
-
   return (
     <form action="">
       <h1>Login</h1>
