@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { UsersTable } from "./components/UsersTable";
 import { CreateUserForm } from "./components/CreateUserForm";
-// import { LoginForm } from "./components/LoginForm";
+import { LoginForm } from "./components/LoginForm";
 import useCookie from "react-use-cookie";
 import { Formik, Field, Form } from "formik";
 import axios from "axios";
+import { Button } from "./components/Button";
 
 function App() {
   const [users, setUsers] = useState(null);
@@ -21,66 +22,31 @@ function App() {
     setUsers(result.data);
   }, []);
 
-  const login = async (user) => {
-    try {
-      const response = await axios.post("/auth/login", {
-        email: user.email,
-        password: user.password,
-      });
-      const { data } = response.data;
-      setUserToken(data.token);
-      console.log("Response", data.token);
-    } catch (e) {
-      const { message } = e.response.data;
-      console.log(message);
-      setLogInErrorMessage(`⛔ ${message}`);
-    }
-  };
-
   if (!userToken) {
     return (
       <main>
         <section>
           <h1>Please Login</h1>
           <p>{loginErrorMessage}</p>
-          <Formik
-            initialValues={{
-              email: "",
-              password: "",
-            }}
-            onSubmit={async (user) => {
-              login(user);
-            }}
-          >
-            <Form>
-              <p>
-                <Field
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                />
-              </p>
-              <p>
-                <Field
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                />
-              </p>
-
-              <button type="submit">🔒 Login</button>
-            </Form>
-          </Formik>
+          <LoginForm
+            setUserToken={(value) => setUserToken(value)}
+            setLogInErrorMessage={(value) => setLogInErrorMessage(value)}
+          />
         </section>
       </main>
     );
   }
 
+  const logout = () => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    window.location.reload(false);
+  };
+
   return (
     <main>
       <section>
+        <Button onClick={logout} value="↩️ Log Out" />
+
         <UsersTable users={users} />
         {/* <CreateUserForm /> */}
       </section>
