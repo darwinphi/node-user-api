@@ -7,13 +7,22 @@ import useCookie from "react-use-cookie";
 import { Formik, Field, Form } from "formik";
 import axios from "axios";
 import { Button } from "./components/Button";
+import jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 function App() {
   const [users, setUsers] = useState(null);
   const [userToken, setUserToken] = useCookie("token", null);
   const [loginErrorMessage, setLogInErrorMessage] = useState("");
 
+  const isAdmin = () => {
+    return userToken && jwtDecode(userToken).is_admin;
+  };
+
+  console.log(isAdmin());
+
   console.log(users);
+  console.log(userToken);
 
   useEffect(async () => {
     const response = await fetch("/users");
@@ -47,8 +56,8 @@ function App() {
       <section>
         <Button onClick={logout} value="↩️ Log Out" />
 
-        <UsersTable users={users} />
-        {/* <CreateUserForm /> */}
+        <UsersTable users={users} isAdmin={isAdmin}/>
+        {isAdmin() && <CreateUserForm />}
       </section>
     </main>
   );

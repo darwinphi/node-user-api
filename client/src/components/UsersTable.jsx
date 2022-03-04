@@ -1,4 +1,4 @@
-export const UsersTable = ({ users, handleEdit, handleDelete }) => {
+export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
   return (
     <>
       <h1>👨‍💻 Users</h1>
@@ -11,7 +11,7 @@ export const UsersTable = ({ users, handleEdit, handleDelete }) => {
             <th>Postcode</th>
             <th>Contact No.</th>
             <th>Email</th>
-            <th colSpan={2}>Actions</th>
+            {isAdmin() && <th colSpan={2}>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -26,12 +26,17 @@ export const UsersTable = ({ users, handleEdit, handleDelete }) => {
                 <td>{user.postcode}</td>
                 <td>{user.contact_number}</td>
                 <td>{user.email}</td>
-                <td>
-                  <button>Edit</button>
-                </td>
-                <td>
-                  <button>Delete</button>
-                </td>
+
+                {isAdmin() && (
+                  <>
+                    <td>
+                      <button>Edit</button>
+                    </td>
+                    <td>
+                      <button>Delete</button>
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
         </tbody>
