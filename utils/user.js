@@ -10,6 +10,7 @@ const emailExists = async (email) => {
     select: {
       email: true,
       password: true,
+      is_admin: true,
     },
   });
 };
