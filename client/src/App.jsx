@@ -10,6 +10,7 @@ import axios from "axios";
 function App() {
   const [users, setUsers] = useState(null);
   const [userToken, setUserToken] = useCookie("token", null);
+  const [loginErrorMessage, setLogInErrorMessage] = useState("");
 
   console.log(users);
 
@@ -30,7 +31,9 @@ function App() {
       setUserToken(data.token);
       console.log("Response", data.token);
     } catch (e) {
-      console.log(e.response.data);
+      const { message } = e.response.data;
+      console.log(message);
+      setLogInErrorMessage(`⛔ ${message}`);
     }
   };
 
@@ -39,6 +42,7 @@ function App() {
       <main>
         <section>
           <h1>Please Login</h1>
+          <p>{loginErrorMessage}</p>
           <Formik
             initialValues={{
               email: "",
