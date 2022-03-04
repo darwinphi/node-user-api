@@ -1,4 +1,24 @@
+import axios from "axios";
+
 export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
+  const deleteUser = async (id) => {
+    try {
+      const response = await axios.delete(`/users/delete/${id}`);
+      console.log(response.data);
+      window.location.reload(false);
+    } catch (e) {
+      console.log(e.response.data.message);
+      alert(e.response.data.message);
+    }
+  };
+  const confirmDeleteUser = async (user) => {
+    const { id, first_name, last_name } = user;
+    const message = `Are you sure you want to delete ${first_name} ${last_name}?`;
+    if (confirm(message)) {
+      deleteUser(id);
+    }
+  };
+
   return (
     <>
       <h1>👨‍💻 Users</h1>
@@ -19,7 +39,7 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
             users.map((user, i) => (
               <tr key={i}>
                 <td>
-                  {user.first_name}, {user.last_name}
+                  {user.first_name} {user.last_name}
                 </td>
                 <td>{user.username}</td>
                 <td>{user.address}</td>
@@ -33,7 +53,9 @@ export const UsersTable = ({ users, handleEdit, handleDelete, isAdmin }) => {
                       <button>Edit</button>
                     </td>
                     <td>
-                      <button>Delete</button>
+                      <button onClick={() => confirmDeleteUser(user)}>
+                        Delete
+                      </button>
                     </td>
                   </>
                 )}
