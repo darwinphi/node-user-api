@@ -1,5 +1,6 @@
 import JWT from "jsonwebtoken";
-const secret = "HWQXTVdJWQ3SDJ6Lkb45XFGAWpAu4vPk";
+import "dotenv/config";
+const secret = process.env.JWT_SECRET;
 
 const auth = async (req, res, next) => {
   const token = req.header("x-auth-token");
