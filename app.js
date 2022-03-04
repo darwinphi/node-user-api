@@ -9,10 +9,10 @@ const __dirname = path.resolve();
 
 app.use(cors());
 app.use(express.json());
-// app.use(express.static(path.resolve(__dirname, "./client/dist")));
-app.get("/", authMiddleware, (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
-});
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
+// app.get("/", authMiddleware, (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
+// });
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 
